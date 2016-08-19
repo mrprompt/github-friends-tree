@@ -1,0 +1,10 @@
+{
+  "extends": "eslint:recommended",
+  "globals": {
+    "module": true,
+    "require": true,
+    "process": true,
+    "describe": true,
+    "it": true
+  }
+}

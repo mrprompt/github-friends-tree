@@ -1,0 +1,52 @@
+{
+  "name": "github-friends-tree",
+  "version": "1.0.0",
+  "description": "Show a tree of your friends from GitHub and your projects.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha",
+    "coverage": "istanbul cover _mocha -- -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrprompt/github-friends-tree.git"
+  },
+  "keywords": [
+    "cli-app",
+    "cli",
+    "github",
+    "user",
+    "username",
+    "email",
+    "friends",
+    "tree",
+    "git"
+  ],
+  "author": {
+    "name": "Thiago Paes",
+    "email": "mrprompt@gmail.com",
+    "url": "mrprompt.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrprompt/github-friends-tree/issues"
+  },
+  "homepage": "https://github.com/mrprompt/github-friends-tree#readme",
+  "bin": {
+    "github-friends-tree": "index.js"
+  },
+  "engines": {
+    "node": ">=6.2"
+  },
+  "devDependencies": {
+    "codeclimate-test-reporter": "^0.3.3",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.2",
+    "should": "^11.1.0"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "octonode": "^0.7.6"
+  }
+}
