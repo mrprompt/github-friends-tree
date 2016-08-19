@@ -15,7 +15,7 @@ $ npm install -g github-friends-tree
 ### Uso
 
 ```
-$ GITHUB_CLIENT=token github-friends-tree contacts.json
+$ GITHUB_CLIENT=token github-friends-tree
 ```
 
 #### token
