@@ -10,36 +10,36 @@ function load() {
     var client = github.client(token);
     var me = client.me();
 
-    for (var i = 1; i < 5; i++) {
-        search(client, me, i);
-    }
-}
-
-function search(client, me, page) {
-    client.requestDefaults['qs'] = {per_page: 100, page: page};
-
-    me.following(function(err, result, headers) {
+    // chamo uma vez somente para pegar o total de páginas
+    me.following(function(err, body, headers) {
         if (err) return;
 
-        result.forEach(function(row) {
-            repositories(client, row.login, 1);
-        });
+        var pages = getPagesFromHeader(headers);
+
+        for (var page = 1; page <= pages; page++) {
+            search(client, me, page);
+        }
     });
 }
 
-function repositories(client, login, page) {
-    var user = client.user(login);
+function search(client, me, page) {
+    client.requestDefaults['qs'] = {
+        per_page: 100, 
+        page: page
+    };
 
-    user.repos(function(err, result) {
+    me.following(function(err, result) {
         if (err) return;
 
         result.forEach(function(row) {
-            console.log(row.full_name);
+            console.log(`${row.id} - @${row.login}`);
         });
     });
 }
 
 function getPagesFromHeader(header) {
+    if (!header.link) return;
+
     var links = header.link.split(',');
     var next = links.pop();
     var link = /(&page=([0-9]+))/g;

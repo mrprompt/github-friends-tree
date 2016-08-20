@@ -1,10 +1,14 @@
 {
   "extends": "eslint:recommended",
-  "globals": {
-    "module": true,
-    "require": true,
-    "process": true,
-    "describe": true,
-    "it": true
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "plugins": [
+    "mocha"
+  ],
+  "rules": {
+        "no-console":0
   }
 }
