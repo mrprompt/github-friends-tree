@@ -1,24 +1,49 @@
-'use strict';
-
-var contacts = require('../src/contacts'),
-    should = require('should');
+/* global describe, it, before, after */
+const contacts = require('../src/contacts');
+const should = require('should');
 
 describe('Contacts', function() {
-    it('should start object without errors', function(done) {
-        should(contacts).be.a.Object();
+    describe("load()", function() {
+        it('is a function', function(done) {
+            should(contacts.load).be.a.Function();
 
-        done();
+            done();
+        });
+
+        it('to be ok', function(done) {
+            should(contacts.load()).be.ok;
+
+            done();
+        });
     });
 
-    it('should be have a load function defined', function(done) {
-        should(contacts.load).be.a.Function();
+    describe("followings()", function() {
+        it('is a function', function(done) {
+            should(contacts.followings).be.a.Function();
 
-        done();
+            done();
+        });
+
+        it('to be ok', function(done) {
+            should(contacts.followings()).be.ok;
+
+            done();
+        });
     });
 
-    it('run load function without parameters should be dispatch an error', function(done) {
-        should(contacts.load()).be.a.TypeError;
+    describe("repositories()", function() {
+        it('is a function', function(done) {
+            should(contacts.repositories).be.a.Function();
 
-        done();
+            done();
+        });
+
+        it('to be ok', function(done) {
+            const user = { login: 'mrprompt', client: { requestDefaults: [] } };
+
+            should(contacts.repositories(user)).be.ok;
+
+            done();
+        });
     });
 });

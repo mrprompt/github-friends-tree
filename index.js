@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-'use strict';
+const contacts = require('./src/contacts');
 
-var contacts = require('./src/contacts');
-    contacts.load();
+const params = process.argv.slice(2);
+const limit = params.shift();
+
+contacts.load(limit);
