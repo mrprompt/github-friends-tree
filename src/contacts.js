@@ -5,6 +5,8 @@ const client = github.client(token);
 
 let page = 1;
 let pages = 100;
+let pageRepositories = 1;
+let pagesRepositories = 100;
 
 function load() {
     const me = client.me();
@@ -41,8 +43,10 @@ function repositories(user, pg = 1) {
         page: pg
     };
 
-    client.user(user.login).repos(function (err, result) {
+    client.user(user.login).repos(function (err, result, headers) {
         if (err) return;
+
+        pagesRepositories = getPagesFromHeader(headers);
 
         console.log(`- @${user.login}`);
 
@@ -50,6 +54,14 @@ function repositories(user, pg = 1) {
             console.log(`\t${row.name} - ${row.language} - ${row.url}`);
         });
     });
+
+    if (pg <= pagesRepositories) {
+        pageRepositories++;
+
+        repositories(user, page);
+    }
+
+    return;
 }
 
 function getPagesFromHeader(header) {
