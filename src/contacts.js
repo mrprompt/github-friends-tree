@@ -25,7 +25,7 @@ function followings(me, pg) {
         pages = getPagesFromHeader(headers);
 
         result.forEach(function(row) {
-            repositories(row);
+            repositories(row, pageRepositories);
         });
     });
 
