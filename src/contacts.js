@@ -9,11 +9,7 @@ let pages = 100;
 let pageRepositories = 1;
 let pagesRepositories = 100;
 
-function load() {
-    followings(page);
-}
-
-function followings(pg) {
+function followings(pg = 1) {
     const client = github.client(token);
     const me = client.me();
 
@@ -72,4 +68,4 @@ function getPagesFromHeader(header) {
     return +parsed.last.page;
 }
 
-module.exports = { load, followings, repositories };
+module.exports = { followings, repositories };
