@@ -31,7 +31,7 @@ function followings(pg = 1) {
         followings(page);
     }
 
-    return;
+    return true;
 }
 
 function repositories(user, pg = 1) {
@@ -55,7 +55,7 @@ function repositories(user, pg = 1) {
         repositories(user, pageRepositories);
     }
 
-    return;
+    return true;
 }
 
 function getPagesFromHeader(header) {
