@@ -3,20 +3,6 @@ const contacts = require('../src/contacts');
 const should = require('should');
 
 describe('Contacts', function() {
-    describe("load()", function() {
-        it('is a function', function(done) {
-            should(contacts.load).be.a.Function();
-
-            done();
-        });
-
-        it('to be ok', function(done) {
-            should(contacts.load()).be.ok;
-
-            done();
-        });
-    });
-
     describe("followings()", function() {
         it('is a function', function(done) {
             should(contacts.followings).be.a.Function();
