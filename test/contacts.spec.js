@@ -1,4 +1,4 @@
-/* global describe, it, before, after */
+/* global describe, it */
 const contacts = require('../src/contacts');
 const should = require('should');
 
