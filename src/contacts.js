@@ -1,7 +1,8 @@
 const github = require('octonode');
+const parse = require('parse-link-header');
 
 const token = process.env.GITHUB_TOKEN || '';
-const LIMIT = 50;
+const LIMIT = 100;
 
 let page = 1;
 let pages = 100;
@@ -9,13 +10,13 @@ let pageRepositories = 1;
 let pagesRepositories = 100;
 
 function load() {
+    followings(page);
+}
+
+function followings(pg) {
     const client = github.client(token);
     const me = client.me();
 
-    followings(me, page);
-}
-
-function followings(me, pg) {
     me.client.requestDefaults['qs'] = { per_page: LIMIT, page: pg };
 
     me.following(function(err, result, headers) {
@@ -31,7 +32,7 @@ function followings(me, pg) {
     if (pg <= pages) {
         page++;
 
-        followings(me, page);
+        followings(page);
     }
 
     return;
@@ -40,7 +41,7 @@ function followings(me, pg) {
 function repositories(user, pg = 1) {
     const client = github.client(token);
 
-    client.requestDefaults['qs'] = { per_page: LIMIT,  page: pg };
+    client.requestDefaults['qs'] = { per_page: LIMIT, page: pg };
 
     client.user(user.login).repos(function (err, result, headers) {
         if (err) return console.error(err);
@@ -62,17 +63,13 @@ function repositories(user, pg = 1) {
 }
 
 function getPagesFromHeader(header) {
-    console.log(header);
+    if (!header.link) return 1;
 
-    if (!header.link) return;
+    const parsed = parse(header.link);
 
-    var links = header.link.split(',');
-    var next = links.pop();
-    var link = /((&|\?)page=([0-9]+))/g;
-    var pages = link.exec(next);
-    var totalPages = pages.pop();
-
-    return Number(totalPages);
+    if (!parsed || !parsed.last) return 1;
+    
+    return +parsed.last.page;
 }
 
 module.exports = { load, followings, repositories };
