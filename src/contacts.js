@@ -16,7 +16,7 @@ function followings(pg = 1) {
     me.client.requestDefaults['qs'] = { per_page: LIMIT, page: pg };
 
     me.following(function(err, result, headers) {
-        if (err) return console.error(err);
+        if (err) return ; //console.error(err);
 
         pages = getPagesFromHeader(headers);
 
@@ -40,7 +40,7 @@ function repositories(user, pg = 1) {
     client.requestDefaults['qs'] = { per_page: LIMIT, page: pg };
 
     client.user(user.login).repos(function (err, result, headers) {
-        if (err) return console.error(err);
+        if (err) return ;//console.error(err);
 
         pagesRepositories = getPagesFromHeader(headers);
 
