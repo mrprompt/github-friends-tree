@@ -3,6 +3,8 @@ const github = require('octonode');
 const token = process.env.GITHUB_TOKEN || '';
 const client = github.client(token);
 
+const LIMIT = 50;
+
 let page = 1;
 let pages = 100;
 let pageRepositories = 1;
@@ -15,7 +17,7 @@ function load() {
 }
 
 function followings(me, pg) {
-    me.client.requestDefaults['qs'] = { per_page: 50, page: pg };
+    me.client.requestDefaults['qs'] = { per_page: LIMIT, page: pg };
 
     me.following(function(err, result, headers) {
         if (err) return;
@@ -23,7 +25,6 @@ function followings(me, pg) {
         pages = getPagesFromHeader(headers);
 
         result.forEach(function(row) {
-            // console.log(`- @${row.login}`);
             repositories(row);
         });
     });
@@ -39,16 +40,18 @@ function followings(me, pg) {
 
 function repositories(user, pg = 1) {
     client.requestDefaults['qs'] = {
-        per_page: 50, 
+        per_page: LIMIT, 
         page: pg
     };
 
     client.user(user.login).repos(function (err, result, headers) {
         if (err) return;
 
-        pagesRepositories = getPagesFromHeader(headers);
+        if (pg === 1) {
+            console.log(`- @${user.login}`);
+        }
 
-        console.log(`- @${user.login}`);
+        pagesRepositories = getPagesFromHeader(headers);
 
         result.forEach(function (row) {
             console.log(`\t${row.name} - ${row.language} - ${row.url}`);
@@ -58,7 +61,7 @@ function repositories(user, pg = 1) {
     if (pg <= pagesRepositories) {
         pageRepositories++;
 
-        repositories(user, page);
+        repositories(user, pageRepositories);
     }
 
     return;
