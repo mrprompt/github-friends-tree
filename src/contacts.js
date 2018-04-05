@@ -6,8 +6,6 @@ const client = github.client(token);
 let page = 1;
 let pages = 100;
 
-let users = [];
-
 function load() {
     const me = client.me();
 
@@ -23,9 +21,8 @@ function followings(me, pg) {
         pages = getPagesFromHeader(headers);
 
         result.forEach(function(row) {
-            console.log(`- @${row.login}`);
-
-            users.push(row);
+            // console.log(`- @${row.login}`);
+            repositories(row);
         });
     });
 
@@ -38,21 +35,19 @@ function followings(me, pg) {
     return;
 }
 
-function repositories(users, page = 1) {
+function repositories(user, pg = 1) {
     client.requestDefaults['qs'] = {
         per_page: 50, 
-        page: page
+        page: pg
     };
 
-    users.forEach(function(user) {
+    client.user(user.login).repos(function (err, result) {
+        if (err) return;
+
         console.log(`- @${user.login}`);
 
-        client.user(user).repos(function (err, result) {
-            if (err) return;
-
-            result.forEach(function (row) {
-                console.log(`\t${row.name} - ${row.language} - ${row.url}`);
-            });
+        result.forEach(function (row) {
+            console.log(`\t${row.name} - ${row.language} - ${row.url}`);
         });
     });
 }
